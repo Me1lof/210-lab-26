@@ -9,6 +9,7 @@
 #include <chrono>
 #include <list>
 #include <set>
+#include <algorithm>
 using namespace std;
 
 
@@ -40,11 +41,18 @@ void runAllOperations(const vector<string>& data, long long results[4][3]) {
 	set<string> s;
 
 
-
 	results[0][0] = measureTime([&]() { v = data; });
 	results[0][1] = measureTime([&]() {l.assign(data.begin(), data.end()); });
 	s.clear();
 	results[0][2] = measureTime([&]() {s.insert(data.begin(), data.end()); });
+
+
+	results[1][0] += measureTime([&]() { sort(v.begin(), v.end()); });
+	results[1][1] += measureTime([&]() {l.sort(); });
+	results[1][2] += -1;
+
+	results[2][0] += measureTime([&]() { v.insert(v.begin() + v.size() / 2, "TESTCODE"); });
+
 }
 
 int main() {
@@ -58,4 +66,8 @@ int main() {
 	for (int i = 0; i < numRuns; ++i) {
 		runAllOperations(data, results);
 	}
+
+	cout << "Number of simulation: " << numRuns << endl;
+	cout << "Operation    Vector     List       Set" << endl;
+	cout << "Read        " << results
 }
