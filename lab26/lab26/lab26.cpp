@@ -52,7 +52,8 @@ void runAllOperations(const vector<string>& data, long long results[4][3]) {
 	results[1][2] += -1;
 
 	results[2][0] += measureTime([&]() { v.insert(v.begin() + v.size() / 2, "TESTCODE"); });
-
+	results[2][1] += measureTime([&]() {auto it = l.begin(); advance(it, l.size() / 2); l.insert(it, "TESTCODE"); });
+	results[2][2] += measureTime([&]() {s.erase(*next(s.begin(), s.size() / 2)); });
 }
 
 int main() {
