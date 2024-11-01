@@ -53,7 +53,11 @@ void runAllOperations(const vector<string>& data, long long results[4][3]) {
 
 	results[2][0] += measureTime([&]() { v.insert(v.begin() + v.size() / 2, "TESTCODE"); });
 	results[2][1] += measureTime([&]() {auto it = l.begin(); advance(it, l.size() / 2); l.insert(it, "TESTCODE"); });
-	results[2][2] += measureTime([&]() {s.erase(*next(s.begin(), s.size() / 2)); });
+	results[2][2] += measureTime([&]() {s.insert("TESTCODE"); });
+
+	results[3][0] += measureTime([&]() {v.erase(v.begin() + v.size() / 2); });
+	results[3][1] += measureTime([&]() {auto it = l.begin(); advance(it, l.size() / 2); l.erase(it); });
+	results[3][2] += measureTime([&]() {s.erase(*next(s.begin(), s.size() / 2)); });
 }
 
 int main() {
@@ -70,5 +74,10 @@ int main() {
 
 	cout << "Number of simulation: " << numRuns << endl;
 	cout << "Operation    Vector     List       Set" << endl;
-	cout << "Read        " << results
+	cout << "Read        " << results[0][0] / numRuns << "     " << results[0][1] / numRuns << "     " << results[0][2] / numRuns << endl;
+	cout << "Sort        " << results[1][0] / numRuns << "     " << results[1][1] / numRuns << "     -1" << endl;
+	cout << "Insert      " << results[2][0] / numRuns << "     " << results[2][1] / numRuns << "     " << results[2][2] / numRuns << endl;
+	cout << "Delete      " << results[3][0] / numRuns << "     " << results[3][1] / numRuns << "     " << results[3][2] / numRuns << endl;
+
+	return 0;
 }
