@@ -34,15 +34,28 @@ long long measureTime(Func func, int repeat = 10) {
 }
 
 
-void raceRead(const vector<string>& data, vector<string>& v, list<string>& l, set<string>& s, long long results[3]) {
-	v.reserve(data.size());
-	results[0] = measureTime([&]() { v = data; });
-	results[1] = measureTime([&]() {l.assign(data.begin(), data.end()); });
-	results[2] = measureTime([&]() {s.insert(data.begin(), data.end()); });
+void runAllOperations(const vector<string>& data, long long results[4][3]) {
+	vector<string> v, dataCopy = data;
+	list<string> l;
+	set<string> s;
+
+
+
+	results[0][0] = measureTime([&]() { v = data; });
+	results[0][1] = measureTime([&]() {l.assign(data.begin(), data.end()); });
+	s.clear();
+	results[0][2] = measureTime([&]() {s.insert(data.begin(), data.end()); });
 }
 
 int main() {
 	string filename = "codes.txt";
 	vector<string> data = loadData(filename);
 	cout << "Data loaded with size: " << data.size() << endl;
+
+	const int numRuns = 15;
+	long long results[4][3] = { 0 };
+
+	for (int i = 0; i < numRuns; ++i) {
+		runAllOperations(data, results);
+	}
 }
