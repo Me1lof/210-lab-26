@@ -20,12 +20,13 @@ vector<string> loadData(const string& filename) {
 	while (getline(file, line)) {
 		data.push_back(line);
 	}
+	return data;
 }
 
 template<typename Func>
 long long measureTime(Func func, int repeat = 10) {
 	long long totalDuration = 0;
-	for (int i = 0; i < reapeat; ++i) {
+	for (int i = 0; i < repeat; ++i) {
 		auto start = chrono::high_resolution_clock::now();
 		func();
 		auto end = chrono::high_resolution_clock::now();
@@ -40,7 +41,7 @@ void runAllOperations(const vector<string>& data, long long results[4][3]) {
 	list<string> l;
 	set<string> s;
 
-
+	v.reserve(data.size());
 	results[0][0] = measureTime([&]() { v = data; });
 	results[0][1] = measureTime([&]() {l.assign(data.begin(), data.end()); });
 	s.clear();
@@ -63,7 +64,6 @@ void runAllOperations(const vector<string>& data, long long results[4][3]) {
 int main() {
 	string filename = "codes.txt";
 	vector<string> data = loadData(filename);
-	cout << "Data loaded with size: " << data.size() << endl;
 
 	const int numRuns = 15;
 	long long results[4][3] = { 0 };
